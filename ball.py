@@ -12,8 +12,8 @@ class Ball(Turtle):
         self.color(random.choice(self.colors))
         self.penup()
         self.goto(0, -100)
-        self.direction = [-6, -5, -4, 4, 5, 6]
-        self.x_move, self.y_move = random.choice(self.direction), random.choice(self.direction)
+        self.direction = [-4, -3, -2, 2, 3, 4]
+        self.x_move, self.y_move = random.choice(self.direction), random.choice([2, 3, 4])
         self.move_speed = 0.01
 
     def move_ball(self):
