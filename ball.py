@@ -31,6 +31,8 @@ class Ball(Turtle):
     def restart_ball(self):
         self.goto(0, 0)
         self.move_speed = 0.01
-        time.sleep(3)
         self.x_move *= -1
         self.y_move *= -1
+
+    def stop_ball(self):
+        self.goto(1100, 1100)

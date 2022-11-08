@@ -21,11 +21,8 @@ class Game(Turtle):
         self.pos_x = [-350, -249, - 148, -47, 46, 145, 244, 343]
         self.pos_y = [230, 190, 150, 110, 70]
         self.paddle = Paddle(-350, 0)
-        self.waiting = True
         self.screen.listen()
-        self.pen = Scoreboard(0, 0)
-
-
+        self.pen = Scoreboard(0, -30)
 
     def create_blocks(self):
         for y in self.pos_y:
@@ -33,54 +30,23 @@ class Game(Turtle):
                 self.list_of_blocks.append(Blocks(x, y))
 
     def welcome_start(self):
-        self.waiting = True
-        # self.pen.goto(0, 0)
-        #
-        #
-        #
-        # while self.waiting:
-        #     self.screen.bgcolor('black')
-        #     self.pen.write('Breakout Game using Python 3 and Turtle\n\n Press the "space" key to continue',
-        #                    align='center', font=('Courier', 24, 'normal'))
-        #     self.screen.onkey(self.wait_for_keypress, 'space')
+        self.pen.clear()
+        self.pen.write(f'\t   Breakout Game  \n\n Press the "SPACE" key for start game',
+                       align='center', font=('Courier', 20, 'normal'))
 
-
-
-        while True:
-            print('dupa')
-            self.pen.write(f'\t   Breakout Game  \n\n Press the "SPACE" key for start game',
-                              align='center', font=('Courier', 20, 'normal'))
-            self.screen.onkey(self.wait_for_keypress, "space")
-            # self.screen.onkey(self.start_game, "space")
-
-    def wait_for_keypress(self):
-        print('waiting')
-        self.waiting = False
-        print(self.waiting)
-        self.start_game()
-
-
-    def nothing(self):
-        pass
+        self.screen.onkey(self.start_game, 'space')
+        self.screen.mainloop()
 
     def start_game(self):
-        print('d')
-        self.pen.write('',
-                       align='center', font=('Courier', 20, 'normal'))
-        self.waiting = False
-        self.screen.onkey(self.nothing, 'space')
-        # self.screen.listen()
-        # self.pen.write(f'\t   Breakout Game  \n\n Press the "SPACE" key for start game',
-        #           align='center', font=('Courier', 20, 'normal'))
-        start = True
+
+        self.pen.clear()
+        self.screen.onkey(None, 'space')
         self.create_blocks()
         self.screen.onkeypress(self.paddle.paddle_right, "Right")
         self.screen.onkeypress(self.paddle.paddle_left, "Left")
-        # pen.clear()
-        while start:
-            self.pen.clear()
-            time.sleep(self.ball.move_speed)
 
+        while True:
+            time.sleep(self.ball.move_speed)
             self.screen.update()
             self.ball.move_ball()
 
@@ -94,18 +60,27 @@ class Game(Turtle):
                 self.ball.bounce()
 
             for i in self.list_of_blocks:
-                if (i.ycor() - 20 <= self.ball.ycor() <= i.ycor() + 20) and (i.xcor() - 60 < self.ball.xcor() < i.xcor() + 60):
+                if (i.ycor() - 20 <= self.ball.ycor() <= i.ycor() + 20) and\
+                        (i.xcor() - 60 < self.ball.xcor() < i.xcor() + 60):
                     self.score.add_score()
                     self.ball.bounce()
                     i.goto(1000, 1000)
 
             if self.ball.ycor() < -310:
+                self.ball.stop_ball()
                 # pen = Scoreboard(0, 0)
-                # pen.write(f'\t   Breakout Game  \n\n Press the "SPACE" key for start game',
-                #           align='center', font=('Courier', 20, 'normal'))
+                self.pen.write(f'\t   Breakout Game  \n\n Press the "SPACE" key for start game',
+                          align='center', font=('Courier', 20, 'normal'))
                 #
-                # screen.onkeypress(start_game, "space")
-                self.ball.restart_ball()
-                self.score.reset_score()
+                self.screen.onkeypress(self.restart_game, "space")
+                # self.ball.restart_ball()
+                # self.score.reset_score()
 
         self.screen.exitonclick()
+
+    def restart_game(self):
+        self.pen.clear()
+        self.score.reset_score()
+        self.ball.restart_ball()
+        self.start_game()
+
