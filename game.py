@@ -19,15 +19,28 @@ class Game(Turtle):
         self.score = Scoreboard(0, 250)
         self.list_of_blocks = []
         self.pos_x = [-350, -249, - 148, -47, 46, 145, 244, 343]
-        self.pos_y = [230, 190, 150, 110, 70]
+        self.pos_y = [230, 190, 150, 110]
         self.paddle = Paddle(-350, 0)
         self.screen.listen()
         self.pen = Scoreboard(0, -30)
 
     def create_blocks(self):
+        self.list_of_blocks.clear()
+        self.screen.update()
         for y in self.pos_y:
             for x in self.pos_x:
                 self.list_of_blocks.append(Blocks(x, y))
+        self.list_of_blocks.append(Blocks(-148, 70))
+        self.list_of_blocks.append(Blocks(-47, 70))
+        self.list_of_blocks.append(Blocks(46, 70))
+        self.list_of_blocks.append(Blocks(145, 70))
+        self.list_of_blocks.append(Blocks(-350, 70))
+        self.list_of_blocks.append(Blocks(-350, 70))
+        self.list_of_blocks.append(Blocks(-350, 30))
+        self.list_of_blocks.append(Blocks(-350, -10))
+        self.list_of_blocks.append(Blocks(343, 70))
+        self.list_of_blocks.append(Blocks(343, 30))
+        self.list_of_blocks.append(Blocks(343, -10))
 
     def welcome_start(self):
         self.pen.clear()
@@ -38,7 +51,6 @@ class Game(Turtle):
         self.screen.mainloop()
 
     def start_game(self):
-
         self.pen.clear()
         self.screen.onkey(None, 'space')
         self.create_blocks()
@@ -68,19 +80,15 @@ class Game(Turtle):
 
             if self.ball.ycor() < -310:
                 self.ball.stop_ball()
-                # pen = Scoreboard(0, 0)
-                self.pen.write(f'\t   Breakout Game  \n\n Press the "SPACE" key for start game',
+                for i in self.list_of_blocks:
+                    i.goto(1000, 1000)
+                self.pen.write(f'\t      Game Over  \n\n \t    Your score: {self.score.score} \n\n'
+                               f' Press the "SPACE" key for restart game',
                           align='center', font=('Courier', 20, 'normal'))
-                #
-                self.screen.onkeypress(self.restart_game, "space")
-                # self.ball.restart_ball()
-                # self.score.reset_score()
-
-        self.screen.exitonclick()
+                self.screen.onkey(self.restart_game, "space")
 
     def restart_game(self):
         self.pen.clear()
         self.score.reset_score()
         self.ball.restart_ball()
         self.start_game()
-
