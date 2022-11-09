@@ -87,6 +87,16 @@ class Game(Turtle):
                           align='center', font=('Courier', 20, 'normal'))
                 self.screen.onkey(self.restart_game, "space")
 
+            if self.score.score == 42:
+                self.score.reset_score()
+                self.ball.stop_ball()
+                for i in self.list_of_blocks:
+                    i.goto(1000, 1000)
+                self.pen.write(f'\t    Congratulations - You won!!!  \n\n'
+                               f' Press the "SPACE" key if you want to play again',
+                               align='center', font=('Courier', 20, 'normal'))
+                self.screen.onkey(self.restart_game, "space")
+
     def restart_game(self):
         self.pen.clear()
         self.score.reset_score()

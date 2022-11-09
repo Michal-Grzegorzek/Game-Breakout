@@ -20,5 +20,3 @@ class Scoreboard(Turtle):
         self.score += 1
         self.clear()
         self.write(f'Score: {self.score}', False, "center", ("Courier", 30, 'normal'))
-
-
